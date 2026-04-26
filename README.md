@@ -8,8 +8,26 @@ API de lista de compras creado con [Nest](https://github.com/nestjs/nest) y [Gra
 
 ## Configuración del proyecto
 
+1. Instalar NestJS CLI
+
+```bash
+$ npm i -g @nestjs/cli
+```
+2. Clonar el repositorio
+
+3. Instalar las dependencias
+
 ```bash
 $ npm install
+```
+4. Clonar el archivo .env.template y renombrar la copia a .env.
+
+5. Completar las variables de entorno en el archivo .env.
+
+6. Levantar la base de datos
+
+```bash
+$ docker compose up -d
 ```
 
 ## Compilar y ejecutar el proyecto
