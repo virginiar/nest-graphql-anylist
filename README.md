@@ -44,6 +44,9 @@ $ npm run build
 $ npm run start:prod
 ```
 
+Visitar el sitio
+[localhost:3000/graphql](localhost:3000/graphql)
+
 ## Aspectos estudiados
 
 En esta API se trabajan los siguientes aspectos de Nest y GraphQL:
@@ -87,6 +90,16 @@ En esta API se trabajan los siguientes aspectos de Nest y GraphQL:
 Los paquetes necesarios para trabajar con GraphQL en NestJS son:
 ```bash
 $ npm i @nestjs/graphql @nestjs/apollo @apollo/server @as-integrations/express5 graphql
+```
+
+Los paquetes necesarios para realizar validaciones en NestJS son:
+```bash
+$ npm i @nestjs/config
+```
+
+La conexión con la base de datos Postgres utiliza TypeORM:
+```bash
+$ npm install --save @nestjs/typeorm typeorm pg
 ```
 
 Los paquetes necesarios para realizar validaciones en NestJS son:
