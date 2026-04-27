@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import * as argon from 'argon2';
+
 import { AuthResponse } from './types/auth-response.types';
-import { SignUpInput } from './dtos/inputs/signup-input';
 import { UsersService } from '../users/users.service';
+import { LoginInput, SignUpInput } from './dtos/inputs';
 
 @Injectable()
 export class AuthService {
@@ -15,5 +17,22 @@ export class AuthService {
     const token = 'ABC123';
 
     return { token, user };
+  }
+
+  async login(loginInput: LoginInput): Promise<AuthResponse> {
+    const { email, password } = loginInput;
+    const user = await this.usersService.findOneByEmail(email);
+
+    const validPassword = await argon.verify(user.password, password);
+    if (!validPassword)
+      throw new UnauthorizedException('Credentials are not valid (password)');
+
+    // TODO
+    const token = 'ABC123';
+
+    return {
+      token,
+      user,
+    };
   }
 }
