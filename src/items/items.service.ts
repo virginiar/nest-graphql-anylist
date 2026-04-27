@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateItemInput, UpdateItemInput } from './dto/inputs/';
+import { CreateItemInput, UpdateItemInput } from './dto/inputs';
 import { Item } from './entities/item.entity';
 
 @Injectable()
@@ -35,7 +35,7 @@ export class ItemsService {
 
     if (!item) throw new NotFoundException(`Item with id: ${id} not found`);
 
-    return this.itemsRepository.save(item);
+    return await this.itemsRepository.save(item);
   }
 
   async remove(id: string): Promise<Item> {

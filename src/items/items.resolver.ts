@@ -3,7 +3,7 @@ import { ParseUUIDPipe } from '@nestjs/common';
 
 import { ItemsService } from './items.service';
 import { Item } from './entities/item.entity';
-import { CreateItemInput, UpdateItemInput } from './dto/inputs/';
+import { CreateItemInput, UpdateItemInput } from './dto/inputs';
 
 @Resolver(() => Item)
 export class ItemsResolver {
@@ -29,14 +29,14 @@ export class ItemsResolver {
   }
 
   @Mutation(() => Item)
-  updateItem(
+  async updateItem(
     @Args('updateItemInput') updateItemInput: UpdateItemInput,
   ): Promise<Item> {
     return this.itemsService.update(updateItemInput.id, updateItemInput);
   }
 
   @Mutation(() => Item)
-  removeItem(@Args('id', { type: () => ID }) id: string): Promise<Item> {
+  async removeItem(@Args('id', { type: () => ID }) id: string): Promise<Item> {
     return this.itemsService.remove(id);
   }
 }
