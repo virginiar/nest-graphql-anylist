@@ -45,7 +45,7 @@ $ npm run start:prod
 ```
 
 Visitar el sitio
-[localhost:3000/graphql](localhost:3000/graphql)
+[http://localhost:3000/graphql](http://localhost:3000/graphql)
 
 ## Aspectos estudiados
 
