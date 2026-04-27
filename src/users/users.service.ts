@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as argon from 'argon2';
 
 import { User } from './entities/user.entity';
 import { SignUpInput } from '../auth/dtos/inputs/signup-input';
@@ -21,7 +22,14 @@ export class UsersService {
 
   async create(signUpInput: SignUpInput): Promise<User> {
     try {
-      const newUser = this.usersRepository.create(signUpInput);
+      const { password, ...userData } = signUpInput;
+      // Generar el hash del password
+      const hash = await argon.hash(password);
+      // console.log(hash);
+      const newUser = this.usersRepository.create({
+        ...userData,
+        password: hash,
+      });
 
       return await this.usersRepository.save(newUser);
     } catch (error) {

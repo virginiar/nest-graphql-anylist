@@ -106,3 +106,8 @@ Los paquetes necesarios para realizar validaciones en NestJS son:
 ```bash
 $ npm i class-validator class-transformer
 ```
+
+Para hashing de contraseñas se utiliza argon2:
+```bash
+$ npm i argon2
+```
