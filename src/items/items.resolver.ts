@@ -3,11 +3,11 @@ import { ParseUUIDPipe } from '@nestjs/common';
 
 import { ItemsService } from './items.service';
 import { Item } from './entities/item.entity';
-import { CreateItemInput, UpdateItemInput } from './dto/inputs';
+import { CreateItemInput, UpdateItemInput } from './dtos/inputs';
 
 @Resolver(() => Item)
 export class ItemsResolver {
-  constructor(private readonly itemsService: ItemsService) {}
+  constructor(private readonly itemsService: ItemsService) { }
 
   @Mutation(() => Item)
   async createItem(
