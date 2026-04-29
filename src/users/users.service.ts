@@ -71,10 +71,11 @@ export class UsersService {
     }
   }
 
-  async block(id: string): Promise<User> {
+  async block(id: string, adminUser: User): Promise<User> {
     const userToBlock = await this.findOneById(id);
 
     userToBlock.isActive = false;
+    userToBlock.lastUpdateBy = adminUser;
 
     return await this.usersRepository.save(userToBlock);
   }
