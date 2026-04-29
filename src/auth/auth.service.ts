@@ -19,7 +19,6 @@ export class AuthService {
   }
 
   async signUp(signUpInput: SignUpInput): Promise<AuthResponse> {
-    // TODO: Crear usuario
     const user = await this.usersService.create(signUpInput);
 
     const token = this.getJwtToken(user.id);
