@@ -11,7 +11,7 @@ import * as argon from 'argon2';
 
 import { User } from './entities/user.entity';
 import { SignUpInput } from '../auth/dtos/inputs/signup.input';
-import { ValidRolesArgs } from './dto/args/roles.arg';
+import { ValidRoles } from '../auth/enums/valid-roles.enum';
 
 @Injectable()
 export class UsersService {
@@ -39,8 +39,15 @@ export class UsersService {
     }
   }
 
-  async findAll(validRoles: ValidRolesArgs): Promise<User[]> {
-    return [];
+  async findAll(roles: ValidRoles[]): Promise<User[]> {
+    if (roles.length === 0) return await this.usersRepository.find();
+
+    // ??? tenemos roles ['admin','superUser']
+    return await this.usersRepository
+      .createQueryBuilder()
+      .andWhere('ARRAY[roles] && ARRAY[:...roles]')
+      .setParameter('roles', roles)
+      .getMany();
   }
 
   async findOneByEmail(email: string): Promise<User> {
