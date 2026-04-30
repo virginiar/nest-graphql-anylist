@@ -42,7 +42,10 @@ export class ItemsResolver {
   }
 
   @Mutation(() => Item)
-  async removeItem(@Args('id', { type: () => ID }) id: string): Promise<Item> {
-    return this.itemsService.remove(id);
+  async removeItem(
+    @Args('id', { type: () => ID }) id: string,
+    @CurrentUser() user: User,
+  ): Promise<Item> {
+    return this.itemsService.remove(id, user);
   }
 }
