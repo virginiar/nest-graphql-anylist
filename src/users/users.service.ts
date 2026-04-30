@@ -12,6 +12,7 @@ import * as argon from 'argon2';
 import { User } from './entities/user.entity';
 import { SignUpInput } from '../auth/dtos/inputs/signup.input';
 import { ValidRoles } from '../auth/enums/valid-roles.enum';
+import { UpdateUserInput } from './dto';
 
 @Injectable()
 export class UsersService {
@@ -78,6 +79,32 @@ export class UsersService {
     userToBlock.lastUpdateBy = adminUser;
 
     return await this.usersRepository.save(userToBlock);
+  }
+
+  async update(
+    id: string,
+    updateUserInput: UpdateUserInput,
+    updateBy: User,
+  ): Promise<User> {
+    try {
+      const user = (await this.usersRepository.preload({
+        ...updateUserInput,
+        id,
+      })) as User;
+
+      user.lastUpdateBy = updateBy;
+
+      if (updateUserInput.password) {
+        const { password } = updateUserInput;
+        // Generar el hash del password
+        const hash = await argon.hash(password);
+        user.password = hash;
+      }
+
+      return await this.usersRepository.save(user);
+    } catch (error) {
+      this.handleDBErrors(error);
+    }
   }
 
   private handleDBErrors(error: any): never {
