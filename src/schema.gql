@@ -71,13 +71,11 @@ input UpdateUserInput {
 
 input CreateItemInput {
   name: String!
-  quantity: Float!
   quantityUnits: String
 }
 
 input UpdateItemInput {
   name: String
-  quantity: Float
   quantityUnits: String
   id: ID!
 }
