@@ -22,15 +22,16 @@ export class ItemsResolver {
   }
 
   @Query(() => [Item], { name: 'items' })
-  async findAll(): Promise<Item[]> {
-    return this.itemsService.findAll();
+  async findAll(@CurrentUser() user: User): Promise<Item[]> {
+    return this.itemsService.findAll(user);
   }
 
   @Query(() => Item, { name: 'item' })
   async findOne(
     @Args('id', { type: () => ID }, ParseUUIDPipe) id: string,
+    @CurrentUser() user: User,
   ): Promise<Item> {
-    return this.itemsService.findOne(id);
+    return this.itemsService.findOne(id, user);
   }
 
   @Mutation(() => Item)

@@ -18,13 +18,24 @@ export class ItemsService {
     return await this.itemsRepository.save(newItem);
   }
 
-  async findAll(): Promise<Item[]> {
+  async findAll(user: User): Promise<Item[]> {
     // TODO: filtrar, paginar, por usuario...
-    return await this.itemsRepository.find();
+    return await this.itemsRepository.find({
+      where: {
+        user: {
+          id: user.id,
+        },
+      },
+    });
   }
 
-  async findOne(id: string): Promise<Item> {
-    const item = await this.itemsRepository.findOneBy({ id });
+  async findOne(id: string, user: User): Promise<Item> {
+    const item = await this.itemsRepository.findOneBy({
+      id,
+      user: {
+        id: user.id,
+      },
+    });
 
     if (!item) throw new NotFoundException(`Item with id: ${id} not found`);
 
