@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateItemInput, UpdateItemInput } from './dtos/inputs';
 import { Item } from './entities/item.entity';
 import { User } from '../users/entities/user.entity';
+import { PaginationArgs } from '../common/dto/args/pagination.arg';
 
 @Injectable()
 export class ItemsService {
@@ -18,9 +19,12 @@ export class ItemsService {
     return await this.itemsRepository.save(newItem);
   }
 
-  async findAll(user: User): Promise<Item[]> {
-    // TODO: filtrar, paginar, por usuario...
+  async findAll(user: User, paginationArgs: PaginationArgs): Promise<Item[]> {
+    const { limit, offset } = paginationArgs;
+
     return await this.itemsRepository.find({
+      take: limit,
+      skip: offset,
       where: {
         user: {
           id: user.id,
