@@ -47,6 +47,8 @@ $ npm run start:prod
 Visitar el sitio
 [http://localhost:3000/graphql](http://localhost:3000/graphql)
 
+Ejecutar la "mutation" executeSeed para llenar la base de datos con información.
+
 ## Aspectos estudiados
 
 En esta API se trabajan los siguientes aspectos de Nest y GraphQL:
