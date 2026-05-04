@@ -3,7 +3,7 @@ import { ParseUUIDPipe, UseGuards } from '@nestjs/common';
 
 import { ItemsService } from './items.service';
 import { Item } from './entities/item.entity';
-import { CreateItemInput, UpdateItemInput } from './dtos/inputs';
+import { CreateItemInput, UpdateItemInput } from './dto/inputs';
 import { User } from '../users/entities/user.entity';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';

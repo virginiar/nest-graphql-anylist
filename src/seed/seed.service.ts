@@ -8,7 +8,7 @@ import { User } from '../users/entities/user.entity';
 import { SEED_ITEMS, SEED_USERS } from './data/seed-data';
 import { UsersService } from '../users/users.service';
 import { ItemsService } from '../items/items.service';
-import { CreateItemInput } from '../items/dtos/inputs';
+import { CreateItemInput } from '../items/dto/inputs';
 
 @Injectable()
 export class SeedService {
