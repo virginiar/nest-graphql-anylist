@@ -69,12 +69,16 @@ export class ListsResolver {
   }
 
   @ResolveField(() => [ListItem], { name: 'items' })
-  async getListItems(@Parent() list: List): Promise<ListItem[]> {
-    throw new Error('not implemented');
+  async getListItems(
+    @Parent() list: List,
+    @Args() paginationArgs: PaginationArgs,
+    @Args() searchArgs: SearchArgs,
+  ): Promise<ListItem[]> {
+    return this.listItemsService.findAll(list, paginationArgs, searchArgs);
   }
 
   @ResolveField(() => Number, { name: 'totalItems' })
   async countListItemsByList(@Parent() list: List): Promise<number> {
-    throw new Error('not implemented');
+    return this.listItemsService.countListItemsByList(list);
   }
 }

@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateListItemInput, UpdateListItemInput } from './dto';
 import { ListItem } from './entities/list-item.entity';
+import { List } from '../lists/entities/list.entity';
+import { PaginationArgs, SearchArgs } from '../common/dto/args';
 
 @Injectable()
 export class ListItemService {
@@ -23,8 +25,27 @@ export class ListItemService {
     return await this.listItemsRepository.save(newListItem);
   }
 
-  findAll() {
-    return `This action returns all listItem`;
+  async findAll(
+    list: List,
+    paginationArgs: PaginationArgs,
+    searchArgs: SearchArgs,
+  ): Promise<ListItem[]> {
+    const { limit, offset } = paginationArgs;
+    const { search } = searchArgs;
+
+    const queryBuilder = this.listItemsRepository
+      .createQueryBuilder('listItem')
+      .take(limit)
+      .skip(offset)
+      .where(`"listId" = :listId`, { listId: list.id });
+
+    if (search) {
+      queryBuilder.andWhere('LOWER(item.name) like :name', {
+        name: `%${search.toLowerCase()}%`,
+      });
+    }
+
+    return queryBuilder.getMany();
   }
 
   findOne(id: number) {
@@ -37,5 +58,11 @@ export class ListItemService {
 
   remove(id: number) {
     return `This action removes a #${id} listItem`;
+  }
+
+  async countListItemsByList(list: List): Promise<number> {
+    return this.listItemsRepository.count({
+      where: { list: { id: list.id } },
+    });
   }
 }
