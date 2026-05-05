@@ -1,5 +1,5 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { ParseUUIDPipe, UseGuards } from '@nestjs/common';
 
 import { ListItemService } from './list-item.service';
 import { ListItem } from './entities/list-item.entity';
@@ -25,7 +25,9 @@ export class ListItemResolver {
   // }
 
   @Query(() => ListItem, { name: 'listItem' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  async findOne(
+    @Args('id', { type: () => String }, ParseUUIDPipe) id: string,
+  ): Promise<ListItem> {
     return this.listItemService.findOne(id);
   }
 

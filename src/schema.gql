@@ -52,7 +52,7 @@ type Query {
   item(id: ID!): Item!
   lists(offset: Int = 0, limit: Int = 10, search: String): [List!]!
   list(id: ID!): List!
-  listItem(id: Int!): ListItem!
+  listItem(id: String!): ListItem!
 }
 
 """Valid roles for GraphQL API."""
