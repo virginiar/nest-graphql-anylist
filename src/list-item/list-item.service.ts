@@ -22,7 +22,9 @@ export class ListItemService {
       list: { id: listId },
     });
 
-    return await this.listItemsRepository.save(newListItem);
+    await this.listItemsRepository.save(newListItem);
+
+    return await this.findOne(newListItem.id);
   }
 
   async findAll(
@@ -35,6 +37,7 @@ export class ListItemService {
 
     const queryBuilder = this.listItemsRepository
       .createQueryBuilder('listItem')
+      .innerJoin('listItem.item', 'item')
       .take(limit)
       .skip(offset)
       .where(`"listId" = :listId`, { listId: list.id });
@@ -63,23 +66,23 @@ export class ListItemService {
   ): Promise<ListItem> {
     const { listId, itemId, ...rest } = updateListItemInput;
 
-    await this.listItemsRepository
+    const queryBuilder = this.listItemsRepository
       .createQueryBuilder()
       .update()
-      .set({
-        ...rest,
-        item: { id: itemId },
-        list: { id: listId },
-      })
-      .where(' id = :id', { id })
-      .execute();
+      .set(rest)
+      .where('id = :id', { id });
+
+    if (listId) queryBuilder.set({ list: { id: listId } });
+    if (itemId) queryBuilder.set({ item: { id: itemId } });
+
+    await queryBuilder.execute();
 
     return await this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} listItem`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} listItem`;
+  // }
 
   async countListItemsByList(list: List): Promise<number> {
     return this.listItemsRepository.count({
