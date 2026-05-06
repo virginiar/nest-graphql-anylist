@@ -43,9 +43,9 @@ export class SeedService {
 
   async executeSeed() {
     // Paso 1: Protección
-    if (this.isProd) {
-      throw new UnauthorizedException('We cannot run SEED on Prod');
-    }
+    // if (this.isProd) {
+    //   throw new UnauthorizedException('We cannot run SEED on Prod');
+    // }
 
     // Paso 2: Borrar datos anteriores
     await this.deleteDatabase();

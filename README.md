@@ -49,6 +49,22 @@ Visitar el sitio
 
 Ejecutar la "mutation" executeSeed para llenar la base de datos con información.
 
+# Ejecutar en producción con contenedores
+
+1. Crear el archivo ```.env.prod```
+
+2. Llenar las variables de entorno de prod
+
+3. Crear la nueva imagen
+```bash
+$ docker compose -f docker-compose.prod.yaml --env-file .env.prod up --build
+```
+
+4. Ejecutar
+```bash
+$ docker compose -f docker-compose.prod.yaml --env-file .env.prod up
+```
+
 ## Aspectos estudiados
 
 En esta API se trabajan los siguientes aspectos de Nest y GraphQL:
